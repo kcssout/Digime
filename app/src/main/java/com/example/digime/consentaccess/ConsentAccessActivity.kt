@@ -45,12 +45,13 @@ class ConsentAccessActivity : AppCompatActivity() {
             session?.let {
                 client.getSessionData({ file, error ->
                     if (file != null) {
-                        Log.d("File received ", file.toString())
+                        Log.d("File contained ", String(file.fileContent))
                         removeReceiving("")
                     } else
                         error?.message?.let { it1 -> removeReceiving(it1) }
                 })
                 { fileList, error ->
+
                     if (error == null)
                         removeReceiving("")
                     else
@@ -62,13 +63,15 @@ class ConsentAccessActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+
         DMEAppCommunicator.getSharedInstance().onActivityResult(requestCode, resultCode, data)
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun displayReceiving() {
         val bundle = Bundle()
-        bundle.putString("progressText", "Receiving data")
+        bundle.putString("progressText", "Receiving RequestData")
 
         val sendingDataFragment = ConsentAccessInProgress()
         sendingDataFragment.arguments = bundle
@@ -87,7 +90,7 @@ class ConsentAccessActivity : AppCompatActivity() {
     }
 
     private fun removeReceiving(errorMessage: String) {
-        supportFragmentManager.popBackStack()
+        supportFragmentManager.popBackStackImmediate()
         if (errorMessage.isNotEmpty())
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         else

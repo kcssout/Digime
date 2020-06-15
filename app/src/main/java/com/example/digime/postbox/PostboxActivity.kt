@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.digime.GoogleDrive.mainGoogleDrive
 import com.example.digime.R
 import kotlinx.android.synthetic.main.postbox_activity_layout.*
 import me.digi.examples.barebonesapp.util.ConsentAccessInProgress
@@ -32,9 +33,7 @@ class PostboxActivity : AppCompatActivity() {
             applicationContext.getString(R.string.digime_application_id),
             applicationContext.getString(R.string.digime_postbox_contract_id)
         )
-
         client = DMEPushClient(applicationContext, cfg)
-
         val privateKeyHex = DMECryptoUtilities(applicationContext).privateKeyHexFrom("y3lHtFPSLnfo7EldRkOVLXeIP7qPflxt.p12", "monkey periscope")
         val configuration = DMEPullConfiguration("jDlT16D0AR8vGOOddajfZGfUsDxY7wNL", "y3lHtFPSLnfo7EldRkOVLXeIP7qPflxt", privateKeyHex)
         pullClient = DMEPullClient(applicationContext, configuration)
@@ -49,6 +48,12 @@ class PostboxActivity : AppCompatActivity() {
         createPull.setOnClickListener { createPull() }
 
         getPulldata.setOnClickListener {  getPulldata()}
+
+        getDriveBox.setOnClickListener {
+            val intent = Intent(this, mainGoogleDrive::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun createPull(){
@@ -60,10 +65,9 @@ class PostboxActivity : AppCompatActivity() {
 
     private fun getPulldata(){
         pullClient.getSessionData({ file, error ->
-            Log.d(TAG, "file : "+ file + "\n" + error)
-            // Handle each downloaded file here.
+            Log.d(TAG, "file : "+ String(file!!.fileContent) + "\n" + error)
         }) { fileList, error ->
-            // Any errors interupting the flow of data will be directed here, or null once all files are retrieved.
+            // Any errors interupting the flow of RequestData will be directed here, or null once all files are retrieved.
             // The file list here will represent the complete list of files that were downloaded.
         }
     }
@@ -73,7 +77,7 @@ class PostboxActivity : AppCompatActivity() {
 
         client.createPostbox(this) { dmePostbox, error ->
             if (dmePostbox != null) {
-
+                Log.d(TAG, "dmePostbox not null \n>>>>>>>>>>>>> "+ dmePostbox.toString())
                 val fileContent = getFileContent("file.png")
                 val metadata = getFileContent("metadatapng.json")
 
@@ -110,6 +114,8 @@ class PostboxActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         DMEAppCommunicator.getSharedInstance().onActivityResult(requestCode, resultCode, data)
@@ -131,8 +137,9 @@ class PostboxActivity : AppCompatActivity() {
     }
 
     private fun displaySendingData() {
+        Log.d(TAG, "displaySending Data")
         val bundle = Bundle()
-        bundle.putString("progressText", "Sending data")
+        bundle.putString("progressText", "Sending RequestData")
 
         val sendingDataFragment = ConsentAccessInProgress()
         sendingDataFragment.arguments = bundle

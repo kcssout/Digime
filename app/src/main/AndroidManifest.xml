@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.digime">
 
+    <!-- Permissions required by GoogleAuthUtil -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -26,6 +33,12 @@
                 android:name="me.digi.examples.barebonesapp.consentaccess.ConsentAccessActivity"
                 android:label="Shady car insurance">
         </activity>
+
+        <activity
+                android:name=".GoogleDrive.mainGoogleDrive"
+                android:label="Gdrive">
+        </activity>
+
 
     </application>
 

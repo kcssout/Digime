@@ -14,7 +14,6 @@
         android:fontFamily="@font/lato"
         android:text="@string/send_receipt"
         android:textAllCaps="true"
-        android:textColor="@color/mate_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,10 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/lato"
-            android:text="createPull"
+            android:text="createPull(authorize)"
             android:textAllCaps="true"
-            android:textColor="@color/mate_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/bg_orange_rounded_corners"
@@ -40,13 +37,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/lato"
-            android:text="getPulldata"
+            android:text="get SessionData"
             android:textAllCaps="true"
-            android:textColor="@color/mate_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/bg_orange_rounded_corners"
             app:layout_constraintTop_toBottomOf="@+id/createPull" />
+
+    <Button
+            android:id="@+id/getDriveBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/lato"
+            android:text="getDriveBox"
+            android:textAllCaps="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/getPulldata" />
 
     <ImageView
         android:id="@+id/app_logo"
